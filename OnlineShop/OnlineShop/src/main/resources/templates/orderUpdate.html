@@ -79,17 +79,38 @@
                             th:text="${order1.getAddress().getPostcode()}"></span></em>
                     <br><em><b>Additional information: </b><span
                             th:text="${order1.getAddress().getAdditionalInformation()}"></span></em>
+                    <br><em><b>Order ID </b><span
+                            th:text="${order1.getId()}"></span></em>
                     <br><em><b></b></em>
-                <div class="dropdown">
-                    <button onclick="myFunction()" class="dropbtn">Order Status</button>
-                    <div id="myDropdown" class="dropdown-content">
-                        <a th:text="${order1.getStatus().status}">Order Placed</a>
-                        <a href="#">Order Confirmed</a>
-                        <a href="#">Order Prepared</a>
-                        <a href="#">Order Shipped</a>
-                        <a href="#">Order Delivered</a>
-                    </div>
-                </div>
+<!--                <div class="dropdown">-->
+<!--                    <button onclick="myFunction()" class="dropbtn">Order Status</button>-->
+<!--                    <div id="myDropdown" class="dropdown-content">-->
+<!--                        <a th:text="${order1.getStatus().status}">Order Placed</a>-->
+<!--                        <a href="#">Order Confirmed</a>-->
+<!--                        <a href="#">Order Prepared</a>-->
+<!--                        <a href="#">Order Shipped</a>-->
+<!--                        <a href="#">Order Delivered</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <form th:action="@{/admin/orders/update/{id}/1(id=${order1.id})}" method="post" >
+
+                    <button type="submit" class="btn btn-primary">Set Status to Order Placed</button></form>
+                <form th:action="@{/admin/orders/update/{id}/2(id=${order1.id})}" method="post" >
+
+                    <button type="submit" class="btn btn-primary">Set Status to Order Confirmed</button>
+                </form>
+                <form th:action="@{/admin/orders/update/{id}/3(id=${order1.id})}" method="post" >
+
+                    <button type="submit" class="btn btn-primary">Set Status to Order Prepared</button>
+                </form>
+                <form th:action="@{/admin/orders/update/{id}/4(id=${order1.id})}" method="post" >
+
+                    <button type="submit" class="btn btn-primary">Set Status to Order Shipped</button>
+                </form>
+                <form th:action="@{/admin/orders/update/{id}/5(id=${order1.id})}" method="post" >
+
+                    <button type="submit" class="btn btn-primary">Set Status to Order Delivered</button>
+                </form>
                 </b></em>
 
                 <!--                        <span-->

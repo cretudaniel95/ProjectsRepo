@@ -12,6 +12,7 @@ import com.onlineshop.business.orderstatus.domain.OrderStatusRepository;
 import com.onlineshop.security.domain.User;
 import com.onlineshop.security.domain.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -71,7 +72,7 @@ public class OrderServiceImpl implements OrderService {
     }
     @Override
     public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+        return orderRepository.findAll(Sort.by(Sort.Direction.ASC,"id"));
     }
 
     public Order getOrdersByUserId(UUID id) {

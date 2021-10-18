@@ -31,6 +31,14 @@ public class AccountController {
 
 
 
+
+
+ @GetMapping("/admin/orders")
+ public String getAllOrders(Model model) {
+ model.addAttribute("orders", orderService.getAllOrders());
+ return "orders";
+ }
+
     @GetMapping("/myAccount")
     public String getMyOrders(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -44,14 +52,16 @@ public class AccountController {
         return "orderUpdate";
     }
 /**
- @GetMapping("/admin/orders/update/{id}") public String updateOrderGet(@PathVariable UUID id, Model model) {
+ @GetMapping("/admin/orders/update/{id}")
+ public String updateOrderGet(@PathVariable UUID id, Model model) {
  model.addAttribute("orderStatus", new OrderStatus());
  model.addAttribute("order", orderService.getOrderByID(id));
  model.addAttribute("orderStatuses", orderStatusService.getAllOrderStatuses());
  return "orderUpdate";
  }
 
- @PostMapping("/admin/orders/update/{id}") public String updateOrderPost(@PathVariable UUID id, @RequestParam("statusID") Integer statusID) {
+ @PostMapping("/admin/orders/update/{id}")
+ public String updateOrderPost(@PathVariable UUID id, @RequestParam("statusID") Integer statusID) {
  orderService.updateStatus(id, statusID);
  return "redirect:/admin/orders";
  }**/

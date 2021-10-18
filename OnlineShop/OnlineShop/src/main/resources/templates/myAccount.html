@@ -128,7 +128,15 @@
 <!--                        <td><span class="badge badge-danger m-0">Canceled</span></td>-->
 <!--                        <td><span class="badge badge-warning m-0">Delayed</span></td>-->
 <!--                        <td><span class="badge badge-success m-0">Delivered</span></td>-->
-                        <td th:text="${order.status.status}"></td>
+<!--                        <td><span class="badge badge-info m-0">In Progress</span></td>-->
+ <td >
+     <span th:if="${order.status.id==1}" class="badge badge-info m-0" th:text="${order.status.status}"></span>
+     <span th:if="${order.status.id==2}" class="badge badge-info m-0" th:text="${order.status.status}"></span>
+     <span th:if="${order.status.id==3}" class="badge badge-warning m-0" th:text="${order.status.status}"></span>
+     <span th:if="${order.status.id==4}" class="badge badge-warning m-0" th:text="${order.status.status}"></span>
+     <span th:if="${order.status.id==5}" class="badge badge-success m-0" th:text="${order.status.status}"></span>
+ </td>
+
                         <td th:text="${order.totalAmount}">1500 RON</td>
                         <td><a href="" th:href="@{/myAccount/{id}(id=${order.id})}" class="btn btn-warning">View Details</a></td>
                     </tr>

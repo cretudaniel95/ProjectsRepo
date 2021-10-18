@@ -26,7 +26,7 @@ import java.util.UUID;
 
 @Controller
 public class AdminController {
-    private static String uploadDir = "C:\\Users\\dragos\\Desktop\\Final project almost finished\\OnlineShop html\\OnlineShop html\\src\\main\\resources\\static\\productImages";
+    private static String uploadDir = "src/main/resources/static/productImages";
 
     @Autowired
     CategoryServiceImpl categoryServiceImpl;
@@ -37,6 +37,7 @@ public class AdminController {
     @Autowired
     OrderService orderService;
 
+    @Autowired
     OrderStatusService orderStatusService;
 
     //Category
@@ -149,7 +150,7 @@ public class AdminController {
 //    }
 
 
-
+    /**
        @GetMapping("/admin/orders")
     public String getAllOrders(Model model) {
         model.addAttribute("orders", orderService.getAllOrders());
@@ -157,22 +158,31 @@ public class AdminController {
     }
 
     @GetMapping("/admin/orders/update/{id}")
-    public String viewOrderDetails(@PathVariable UUID id,Model model){
-        model.addAttribute("order1", orderService.getOrderByID(id));
-        return "userOrderDetails";
+    public String updateOrderGet(@PathVariable UUID id, Model model) {
+        model.addAttribute("orderStatus", new OrderStatus());
+        model.addAttribute("order", orderService.getOrderByID(id));
+        model.addAttribute("orderStatuses", orderStatusService.getAllOrderStatuses());
+        return "orderUpdate";
     }
-//    @GetMapping("/admin/orders/update/{id}")
-//    public String updateOrderGet(@PathVariable UUID id, Model model) {
-//        model.addAttribute("orderStatus", new OrderStatus());
-//        model.addAttribute("order2", orderService.getOrderByID(id));
-//        model.addAttribute("orderStatuses", orderStatusService.getAllOrderStatuses());
-//        return "orderPlaced";
-//    }
+
+    @PostMapping("/admin/orders/update/{id}")
+    public String updateOrderPost(@PathVariable UUID id, @RequestParam("statusID") Integer statusID) {
+        orderService.updateStatus(id, statusID);
+        return "redirect:/admin/orders";
+    }**/
+    @GetMapping("/admin/orders/update/{id}")
+    public String updateOrderGet(@PathVariable UUID id, Model model) {
+        model.addAttribute("orderStatus", new OrderStatus());
+        model.addAttribute("order1", orderService.getOrderByID(id));
+        model.addAttribute("orderStatuses", orderStatusService.getAllOrderStatuses());
+        return "orderUpdate";
+    }
 
 
-//    @GetMapping("/admin/orders/updated/{id}")
-//    public String updateOrderPost(@PathVariable UUID id, Model model) {
-//        Order order = orderService.getOrderByID(id);
+    @PostMapping ("/admin/orders/update/{id}/{statusId}")
+    public String updateOrderPost(@PathVariable UUID id,  @PathVariable("statusId") String statusID){
+       orderService.updateStatus(id, Integer.valueOf(statusID));
+
 //        OrderDTO orderDTO = new OrderDTO();
 //        orderDTO.setId(order.getId());
 //        orderDTO.setTotalAmount(order.getTotalAmount());
@@ -182,6 +192,8 @@ public class AdminController {
 //        orderDTO.setStatusID(order.getStatus().getId());
 //        model.addAttribute("orderDTO", orderDTO);
 //        model.addAttribute("statuses", orderStatusService.getAllOrderStatuses());
-//        return "productsAdd";
-//    }
+        return "redirect:/admin/orders";
+    }
 }
+
+//    public String updateOrderPost(@PathVariable UUID id,  @RequestParam("statusID") String statusID) throws IOException {

@@ -37,6 +37,6 @@ public class Order {
     @ManyToOne(cascade = CascadeType.ALL)
     private User orderUser;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     private OrderStatus status;
 }
