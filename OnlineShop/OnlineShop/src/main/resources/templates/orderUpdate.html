@@ -15,7 +15,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img th:src="@{/images/logo.png}"  src="../static/images/logo.png" width="auto" height="60" class="d-inline-block align-top" alt=""/>
+            <img th:src="@{/images/logo.png}" src="../static/images/logo.png" width="auto" height="60"
+                 class="d-inline-block align-top" alt=""/>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,13 +54,14 @@
 
                 <tr th:each="entry : ${order1.getOrderItems()}">
 
-                    <td> <img style="border-image: -ms-linear-gradient()" class="mt-3" height="50px" width="50px" src="" th:src="@{${'/productImages/' + entry.getProduct().getImageName()}}"
-                              alt=""></td>
-                    <td  th:text="${entry.product.getName()} + ' - ' + ${entry.quantity} +' pcs ' + '  =  ' + ${entry.price}+ ' RON'"></td>
+                    <td><img style="border-image: -ms-linear-gradient()" class="mt-3" height="50px" width="50px" src=""
+                             th:src="@{${'/productImages/' + entry.getProduct().getImageName()}}"
+                             alt=""></td>
+                    <td th:text="${entry.product.getName()} + ' - ' + ${entry.quantity} +' pcs ' + '  =  ' + ${entry.price}+ ' RON'"></td>
 
                 </tr>
                 <tr>
-                    <td><b>Total: </b><span th:text="${order1.getTotalAmount()} + ' RON'"></td>
+                    <td><b>Total: </b><span th:text="${order1.getTotalAmount()} + ' RON'"></span></td>
                 </tr>
                 </tbody>
             </table>
@@ -77,9 +79,22 @@
                             th:text="${order1.getAddress().getPostcode()}"></span></em>
                     <br><em><b>Additional information: </b><span
                             th:text="${order1.getAddress().getAdditionalInformation()}"></span></em>
-                    <br><em><b>Order Status: </b><span
-                            th:text="${order1.getStatus().status}"></span></em>
-                    <br>
+                    <br><em><b></b></em>
+                <div class="dropdown">
+                    <button onclick="myFunction()" class="dropbtn">Order Status</button>
+                    <div id="myDropdown" class="dropdown-content">
+                        <a th:text="${order1.getStatus().status}">Order Placed</a>
+                        <a href="#">Order Confirmed</a>
+                        <a href="#">Order Prepared</a>
+                        <a href="#">Order Shipped</a>
+                        <a href="#">Order Delivered</a>
+                    </div>
+                </div>
+                </b></em>
+
+                <!--                        <span-->
+                <!--                            th:text="${order1.getStatus().status}"></span></em>-->
+                <br>
 
                 </p>
             </div>
@@ -93,5 +108,81 @@
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
                     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
                     crossorigin="anonymous"></script>
+        </div>
+    </div>
+</div>
+
 </body>
+
+<style>
+    /* Dropdown Button */
+    .dropbtn {
+        background-color: #3498DB;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* Dropdown button on hover & focus */
+    .dropbtn:hover, .dropbtn:focus {
+        background-color: #2980B9;
+    }
+
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    /* Links inside the dropdown */
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {
+        background-color: #ddd
+    }
+
+    /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+    .show {
+        display: block;
+    }
+</style>
+<script>
+    /* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>
 </html>
