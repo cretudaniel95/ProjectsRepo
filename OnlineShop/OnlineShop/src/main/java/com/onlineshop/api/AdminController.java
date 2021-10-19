@@ -144,14 +144,9 @@ public class AdminController {
         return "productsAdd";
     }
 
-//    @GetMapping("/myAccount")
-//    public String myAccount() {
-//        return "myAccount";
-//    }
+    //Orders
 
-
-    /**
-       @GetMapping("/admin/orders")
+    @GetMapping("/admin/orders")
     public String getAllOrders(Model model) {
         model.addAttribute("orders", orderService.getAllOrders());
         return "orders";
@@ -160,40 +155,14 @@ public class AdminController {
     @GetMapping("/admin/orders/update/{id}")
     public String updateOrderGet(@PathVariable UUID id, Model model) {
         model.addAttribute("orderStatus", new OrderStatus());
-        model.addAttribute("order", orderService.getOrderByID(id));
-        model.addAttribute("orderStatuses", orderStatusService.getAllOrderStatuses());
-        return "orderUpdate";
-    }
-
-    @PostMapping("/admin/orders/update/{id}")
-    public String updateOrderPost(@PathVariable UUID id, @RequestParam("statusID") Integer statusID) {
-        orderService.updateStatus(id, statusID);
-        return "redirect:/admin/orders";
-    }**/
-    @GetMapping("/admin/orders/update/{id}")
-    public String updateOrderGet(@PathVariable UUID id, Model model) {
-        model.addAttribute("orderStatus", new OrderStatus());
         model.addAttribute("order1", orderService.getOrderByID(id));
         model.addAttribute("orderStatuses", orderStatusService.getAllOrderStatuses());
         return "orderUpdate";
     }
 
-
     @PostMapping ("/admin/orders/update/{id}/{statusId}")
     public String updateOrderPost(@PathVariable UUID id,  @PathVariable("statusId") String statusID){
-       orderService.updateStatus(id, Integer.valueOf(statusID));
-
-//        OrderDTO orderDTO = new OrderDTO();
-//        orderDTO.setId(order.getId());
-//        orderDTO.setTotalAmount(order.getTotalAmount());
-//        orderDTO.setOrderItems(order.getOrderItems());
-//        orderDTO.setOrderUser(order.getOrderUser());
-//        orderDTO.setAddress(order.getAddress());
-//        orderDTO.setStatusID(order.getStatus().getId());
-//        model.addAttribute("orderDTO", orderDTO);
-//        model.addAttribute("statuses", orderStatusService.getAllOrderStatuses());
+        orderService.updateStatus(id, Integer.valueOf(statusID));
         return "redirect:/admin/orders";
     }
 }
-
-//    public String updateOrderPost(@PathVariable UUID id,  @RequestParam("statusID") String statusID) throws IOException {

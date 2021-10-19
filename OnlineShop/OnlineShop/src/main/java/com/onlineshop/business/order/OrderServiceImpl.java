@@ -88,9 +88,9 @@ public class OrderServiceImpl implements OrderService {
     public void updateStatus(UUID id, Integer statusID) {
         OrderStatus orderStatus = new OrderStatus();
         orderStatus.setId(statusID);
-       Order order = orderRepository.getOrderById(id);
-       order.setStatus(orderStatus);
-       orderRepository.save(order);
+        Order order = orderRepository.getOrderById(id);
+        order.setStatus(orderStatus);
+        orderRepository.save(order);
     }
 
     @Override

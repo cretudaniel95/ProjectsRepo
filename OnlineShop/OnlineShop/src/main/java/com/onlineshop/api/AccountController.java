@@ -1,5 +1,6 @@
 package com.onlineshop.api;
 
+import com.onlineshop.business.cart.Cart;
 import com.onlineshop.business.category.CategoryServiceImpl;
 import com.onlineshop.business.category.domain.Category;
 import com.onlineshop.business.order.OrderService;
@@ -29,40 +30,19 @@ public class AccountController {
     @Autowired
     OrderService orderService;
 
-
-
-
-
- @GetMapping("/admin/orders")
- public String getAllOrders(Model model) {
- model.addAttribute("orders", orderService.getAllOrders());
- return "orders";
- }
-
     @GetMapping("/myAccount")
     public String getMyOrders(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("orders", orderService.getAllOrdersOfTheUser(user.getId()));
+        model.addAttribute("cartCount", Cart.cartList.size());
         return "myAccount";
     }
 
     @GetMapping("/myAccount/{id}")
     public String viewOrderDetails(@PathVariable UUID id,Model model){
         model.addAttribute("order1", orderService.getOrderByID(id));
-        return "orderUpdate";
+        model.addAttribute("cartCount", Cart.cartList.size());
+        return "userOrderDetails";
     }
-/**
- @GetMapping("/admin/orders/update/{id}")
- public String updateOrderGet(@PathVariable UUID id, Model model) {
- model.addAttribute("orderStatus", new OrderStatus());
- model.addAttribute("order", orderService.getOrderByID(id));
- model.addAttribute("orderStatuses", orderStatusService.getAllOrderStatuses());
- return "orderUpdate";
- }
 
- @PostMapping("/admin/orders/update/{id}")
- public String updateOrderPost(@PathVariable UUID id, @RequestParam("statusID") Integer statusID) {
- orderService.updateStatus(id, statusID);
- return "redirect:/admin/orders";
- }**/
 }
