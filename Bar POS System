@@ -1,0 +1,729 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.table.DefaultTableModel;
+import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
+import java.text.MessageFormat;
+import java.util.Random;
+import java.util.UUID;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+
+public class Pos {
+
+	private JFrame frame;
+	private JTextField jtxtBarCode;
+	private JTable table;
+	private JTextField jtxtTax;
+	private JTextField jtxtSubTotal;
+	private JTextField jtxtTotal;
+	private JTextField jtxtChange;
+	private JTextField jtxtDisplay;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Pos window = new Pos();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Pos() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	
+	// ===============================Functions===================================
+	
+		public void itemCost() {
+			double sum = 0;
+			double tax = 9;
+			
+			for(int i = 0; i < table.getRowCount(); i++) {
+				sum = sum + Double.parseDouble(table.getValueAt(i, 2).toString());
+			}
+			
+			jtxtSubTotal.setText(Double.toString(sum));
+			
+			double cTotal = Double.parseDouble(jtxtSubTotal.getText());
+			
+			double cTax = (cTotal * tax) / 100;
+			
+			String iTaxTotal = String.format("$ %.2f", cTax);
+			jtxtTax.setText(iTaxTotal);
+			
+			String iSubTotal = String.format("$ %.2f", cTotal);
+			jtxtSubTotal.setText(iSubTotal);
+			
+			String iTotal = String.format("$ %.2f", cTotal + cTax);
+			jtxtTotal.setText(iTotal);
+			
+			String barCode = String.format("Total is %.2f", cTotal + cTax);
+			jtxtBarCode.setText(barCode);
+			
+		}
+		// ===============================Functions===================================
+		
+		public void Change() {
+			double sum = 0;
+			double tax = 9;
+			double cash = Double.parseDouble(jtxtDisplay.getText());
+			
+			for(int i = 0; i < table.getRowCount(); i++) {
+				sum += Double.parseDouble(table.getValueAt(i, 2).toString());
+			}
+			
+			double cTax = (sum * tax) / 100;
+			double cChange = (cash - (sum + cTax));
+			
+			String changeGiven = String.format("$ %.2f", cChange);
+			jtxtChange.setText(changeGiven);
+			
+		}
+		// ===============================Functions===================================
+		
+		
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(0, 0, 1450, 700);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel.setBounds(12, 12, 375, 439);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		final JButton jbtn7 = new JButton("7");
+		jbtn7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String enterNumber = jtxtDisplay.getText();
+				if(enterNumber == "") {
+					jtxtDisplay.setText(jbtn7.getText());
+				}else {
+					enterNumber = jtxtDisplay.getText() + jbtn7.getText();
+					jtxtDisplay.setText(enterNumber);
+				}
+			}
+		});
+		jbtn7.setFont(new Font("Tahoma", Font.BOLD, 48));
+		jbtn7.setBounds(12, 12, 108, 95);
+		panel.add(jbtn7);
+		
+		final JButton jbtn4 = new JButton("4");
+		jbtn4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String enterNumber = jtxtDisplay.getText();
+				if(enterNumber == "") {
+					jtxtDisplay.setText(jbtn4.getText());
+				}else {
+					enterNumber = jtxtDisplay.getText() + jbtn4.getText();
+					jtxtDisplay.setText(enterNumber);
+				}
+			}
+		});
+		jbtn4.setFont(new Font("Tahoma", Font.BOLD, 48));
+		jbtn4.setBounds(12, 114, 108, 95);
+		panel.add(jbtn4);
+		
+		final JButton jbtn1 = new JButton("1");
+		jbtn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String enterNumber = jtxtDisplay.getText();
+				if(enterNumber == "") {
+					jtxtDisplay.setText(jbtn1.getText());
+				}else {
+					enterNumber = jtxtDisplay.getText() + jbtn1.getText();
+					jtxtDisplay.setText(enterNumber);
+				}
+			}
+		});
+		jbtn1.setFont(new Font("Tahoma", Font.BOLD, 48));
+		jbtn1.setBounds(12, 218, 108, 95);
+		panel.add(jbtn1);
+		
+		final JButton jbtn0 = new JButton("0");
+		jbtn0.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String enterNumber = jtxtDisplay.getText();
+				if(enterNumber == "") {
+					jtxtDisplay.setText(jbtn0.getText());
+				}else {
+					enterNumber = jtxtDisplay.getText() + jbtn0.getText();
+					jtxtDisplay.setText(enterNumber);
+				}
+			}
+		});
+		jbtn0.setFont(new Font("Tahoma", Font.BOLD, 48));
+		jbtn0.setBounds(12, 325, 108, 95);
+		panel.add(jbtn0);
+		
+		final JButton jbtn8 = new JButton("8");
+		jbtn8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String enterNumber = jtxtDisplay.getText();
+				if(enterNumber == "") {
+					jtxtDisplay.setText(jbtn8.getText());
+				}else {
+					enterNumber = jtxtDisplay.getText() + jbtn8.getText();
+					jtxtDisplay.setText(enterNumber);
+				}
+			}
+		});
+		jbtn8.setFont(new Font("Tahoma", Font.BOLD, 48));
+		jbtn8.setBounds(135, 12, 108, 95);
+		panel.add(jbtn8);
+		
+		final JButton jbtn5 = new JButton("5");
+		jbtn5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String enterNumber = jtxtDisplay.getText();
+				if(enterNumber == "") {
+					jtxtDisplay.setText(jbtn5.getText());
+				}else {
+					enterNumber = jtxtDisplay.getText() + jbtn5.getText();
+					jtxtDisplay.setText(enterNumber);
+				}
+			}
+		});
+		jbtn5.setFont(new Font("Tahoma", Font.BOLD, 48));
+		jbtn5.setBounds(135, 114, 108, 95);
+		panel.add(jbtn5);
+		
+		final JButton jbtn2 = new JButton("2");
+		jbtn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String enterNumber = jtxtDisplay.getText();
+				if(enterNumber == "") {
+					jtxtDisplay.setText(jbtn2.getText());
+				}else {
+					enterNumber = jtxtDisplay.getText() + jbtn2.getText();
+					jtxtDisplay.setText(enterNumber);
+				}
+			}
+		});
+		jbtn2.setFont(new Font("Tahoma", Font.BOLD, 48));
+		jbtn2.setBounds(135, 218, 108, 95);
+		panel.add(jbtn2);
+		
+		final JButton jbtnDot = new JButton(".");
+		jbtnDot.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				if(! jtxtDisplay.getText().contains(".")){
+					jtxtDisplay.setText(jtxtDisplay.getText() + jbtnDot.getText());
+				}
+			}
+		});
+
+		jbtnDot.setFont(new Font("Tahoma", Font.BOLD, 48));
+		jbtnDot.setBounds(135, 325, 108, 95);
+		panel.add(jbtnDot);
+		
+		final JButton jbtn9 = new JButton("9");
+		jbtn9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String enterNumber = jtxtDisplay.getText();
+				if(enterNumber == "") {
+					jtxtDisplay.setText(jbtn9.getText());
+				}else {
+					enterNumber = jtxtDisplay.getText() + jbtn9.getText();
+					jtxtDisplay.setText(enterNumber);
+				}
+			}
+		});
+		jbtn9.setFont(new Font("Tahoma", Font.BOLD, 48));
+		jbtn9.setBounds(255, 12, 108, 95);
+		panel.add(jbtn9);
+		
+		final JButton jbtn6 = new JButton("6");
+		jbtn6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String enterNumber = jtxtDisplay.getText();
+				if(enterNumber == "") {
+					jtxtDisplay.setText(jbtn6.getText());
+				}else {
+					enterNumber = jtxtDisplay.getText() + jbtn6.getText();
+					jtxtDisplay.setText(enterNumber);
+				}
+			}
+		});
+		jbtn6.setFont(new Font("Tahoma", Font.BOLD, 48));
+		jbtn6.setBounds(255, 114, 108, 95);
+		panel.add(jbtn6);
+		
+		final JButton jbtn3 = new JButton("3");
+		jbtn3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String enterNumber = jtxtDisplay.getText();
+				if(enterNumber == "") {
+					jtxtDisplay.setText(jbtn3.getText());
+				}else {
+					enterNumber = jtxtDisplay.getText() + jbtn3.getText();
+					jtxtDisplay.setText(enterNumber);
+				}
+			}
+		});
+		jbtn3.setFont(new Font("Tahoma", Font.BOLD, 48));
+		jbtn3.setBounds(255, 218, 108, 95);
+		panel.add(jbtn3);
+		
+		JButton jbtnC = new JButton("C");
+		jbtnC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jtxtDisplay.setText(null);
+				jtxtChange.setText(null);
+			}
+		});
+		jbtnC.setFont(new Font("Tahoma", Font.BOLD, 48));
+		jbtnC.setBounds(255, 325, 108, 95);
+		panel.add(jbtnC);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_1.setBounds(742, 12, 680, 439);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		
+		JButton jbtnCapp = new JButton("");
+		jbtnCapp.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\1.jpg"));
+		jbtnCapp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 4;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Cappucino", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnCapp.setBounds(12, 12, 120, 96);
+		panel_1.add(jbtnCapp);
+		
+		JButton jbtnLatte = new JButton("");
+		jbtnLatte.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 5;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Latte Macchiato", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnLatte.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\latte.jpg"));
+		jbtnLatte.setBounds(144, 12, 120, 96);
+		panel_1.add(jbtnLatte);
+		
+		JButton jbtnHot = new JButton("");
+		jbtnHot.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 5;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Hot Chocolate", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnHot.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\hot chocolate.jpg"));
+		jbtnHot.setBounds(276, 12, 120, 96);
+		panel_1.add(jbtnHot);
+		
+		JButton jbtnFrappe = new JButton("");
+		jbtnFrappe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 5;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Frappe", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnFrappe.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\frappe.jpg"));
+		jbtnFrappe.setBounds(408, 12, 120, 96);
+		panel_1.add(jbtnFrappe);
+		
+		JButton jbtnMulled = new JButton("");
+		jbtnMulled.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 6;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Mulled Wine", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnMulled.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\mulled wine.jfif"));
+		jbtnMulled.setBounds(540, 12, 120, 96);
+		panel_1.add(jbtnMulled);
+		
+		JButton jbtnWhiskey = new JButton("");
+		jbtnWhiskey.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 7;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Whiskey Sour", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnWhiskey.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\whiskeysour_card.jpg"));
+		jbtnWhiskey.setBounds(144, 120, 120, 96);
+		panel_1.add(jbtnWhiskey);
+		
+		JButton jbtnCuba = new JButton("");
+		jbtnCuba.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 6;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Cuba Libre", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnCuba.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\cuba libre.jfif"));
+		jbtnCuba.setBounds(276, 120, 120, 96);
+		panel_1.add(jbtnCuba);
+		
+		JButton jbtnMojito = new JButton("");
+		jbtnMojito.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 7;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Mojito", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnMojito.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\mojito.jfif"));
+		jbtnMojito.setBounds(408, 120, 120, 96);
+		panel_1.add(jbtnMojito);
+		
+		JButton jbtnRasp = new JButton("");
+		jbtnRasp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 8;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Raspberry Margarita", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnRasp.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\Raspberry-Margarita.jpg"));
+		jbtnRasp.setBounds(540, 120, 120, 96);
+		panel_1.add(jbtnRasp);
+		
+		JButton jbtnOld = new JButton("");
+		jbtnOld.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 7;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Old Fashioned", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnOld.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\OldFashioned.jpg"));
+		jbtnOld.setBounds(12, 120, 120, 96);
+		panel_1.add(jbtnOld);
+		
+		JButton jbtnFanta = new JButton("");
+		jbtnFanta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 3;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Fanta", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnFanta.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\fanta.jpg"));
+		jbtnFanta.setBounds(144, 228, 120, 96);
+		panel_1.add(jbtnFanta);
+		
+		JButton jbtnSprite = new JButton("");
+		jbtnSprite.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 3;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Sprite", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnSprite.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\sprite.jpg"));
+		jbtnSprite.setBounds(276, 228, 120, 96);
+		panel_1.add(jbtnSprite);
+		
+		JButton jbtnKinley = new JButton("");
+		jbtnKinley.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 3;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Schweppes Kinley", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnKinley.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\kinley.jpg"));
+		jbtnKinley.setBounds(408, 228, 120, 96);
+		panel_1.add(jbtnKinley);
+		
+		JButton jbtnBitter = new JButton("");
+		jbtnBitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 3;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Schweppes Bitter Lemon", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnBitter.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\schweppes_bitter_lemon_025l.jpg"));
+		jbtnBitter.setBounds(540, 228, 120, 96);
+		panel_1.add(jbtnBitter);
+		
+		JButton jbtnCoke = new JButton("");
+		jbtnCoke.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 3;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Coke", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnCoke.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\coke.jpg"));
+		jbtnCoke.setBounds(12, 228, 120, 96);
+		panel_1.add(jbtnCoke);
+		
+		JButton jbtnCappy = new JButton("");
+		jbtnCappy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double itemPrice = 3;
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(new Object[] {"Cappy", "1", itemPrice});
+				itemCost();
+			}
+		});
+		jbtnCappy.setIcon(new ImageIcon("C:\\Users\\dragos\\Desktop\\PoS Eclipse - Coffe Place\\cappy.jpg"));
+		jbtnCappy.setBounds(12, 336, 120, 96);
+		panel_1.add(jbtnCappy);
+		
+		jtxtBarCode = new JTextField();
+		jtxtBarCode.setFont(new Font("Code39", Font.BOLD, 36));
+		jtxtBarCode.setBounds(399, 398, 331, 53);
+		frame.getContentPane().add(jtxtBarCode);
+		jtxtBarCode.setColumns(10);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(399, 12, 331, 378);
+		frame.getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Items", "Quantity", "Amount"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table.getColumnModel().getColumn(0).setPreferredWidth(200);
+		table.getColumnModel().getColumn(1).setPreferredWidth(57);
+		table.getColumnModel().getColumn(2).setPreferredWidth(70);
+		scrollPane.setViewportView(table);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_2.setBounds(12, 463, 465, 194);
+		frame.getContentPane().add(panel_2);
+		panel_2.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("TAX");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblNewLabel.setBounds(12, 12, 66, 40);
+		panel_2.add(lblNewLabel);
+		
+		jtxtTax = new JTextField();
+		jtxtTax.setFont(new Font("Tahoma", Font.BOLD, 24));
+		jtxtTax.setBounds(231, 12, 222, 40);
+		panel_2.add(jtxtTax);
+		jtxtTax.setColumns(10);
+		
+		jtxtSubTotal = new JTextField();
+		jtxtSubTotal.setFont(new Font("Tahoma", Font.BOLD, 24));
+		jtxtSubTotal.setColumns(10);
+		jtxtSubTotal.setBounds(231, 64, 222, 40);
+		panel_2.add(jtxtSubTotal);
+		
+		JLabel lblSubtotal = new JLabel("SubTotal");
+		lblSubtotal.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblSubtotal.setBounds(12, 64, 134, 40);
+		panel_2.add(lblSubtotal);
+		
+		jtxtTotal = new JTextField();
+		jtxtTotal.setFont(new Font("Tahoma", Font.BOLD, 24));
+		jtxtTotal.setColumns(10);
+		jtxtTotal.setBounds(231, 116, 222, 40);
+		panel_2.add(jtxtTotal);
+		
+		JLabel lblTotal = new JLabel("Total");
+		lblTotal.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblTotal.setBounds(12, 115, 66, 40);
+		panel_2.add(lblTotal);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_3.setBounds(489, 463, 481, 194);
+		frame.getContentPane().add(panel_3);
+		panel_3.setLayout(null);
+		
+		JLabel lblPayMethod = new JLabel("Pay Method");
+		lblPayMethod.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblPayMethod.setBounds(12, 12, 160, 40);
+		panel_3.add(lblPayMethod);
+		
+		JLabel lblDisplayCash = new JLabel("Display Cash");
+		lblDisplayCash.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblDisplayCash.setBounds(12, 64, 176, 40);
+		panel_3.add(lblDisplayCash);
+		
+		JLabel lblChange = new JLabel("Change");
+		lblChange.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblChange.setBounds(12, 115, 140, 40);
+		panel_3.add(lblChange);
+		
+		jtxtChange = new JTextField();
+		jtxtChange.setFont(new Font("Tahoma", Font.BOLD, 24));
+		jtxtChange.setColumns(10);
+		jtxtChange.setBounds(231, 116, 222, 40);
+		panel_3.add(jtxtChange);
+		
+		jtxtDisplay = new JTextField();
+		jtxtDisplay.setFont(new Font("Tahoma", Font.BOLD, 24));
+		jtxtDisplay.setColumns(10);
+		jtxtDisplay.setBounds(231, 64, 222, 40);
+		panel_3.add(jtxtDisplay);
+		
+		final JComboBox jcboPayment = new JComboBox();
+		jcboPayment.setModel(new DefaultComboBoxModel(new String[] {"Cash", "Card", "Ecard"}));
+		jcboPayment.setFont(new Font("Tahoma", Font.BOLD, 24));
+		jcboPayment.setBounds(231, 13, 222, 38);
+		panel_3.add(jcboPayment);
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_4.setBounds(982, 463, 440, 194);
+		frame.getContentPane().add(panel_4);
+		panel_4.setLayout(null);
+		
+		JButton jbtnPay = new JButton("Pay");
+		jbtnPay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(jcboPayment.getSelectedItem().equals("Cash")) {
+					Change();
+				}else {
+					jtxtChange.setText("");
+					jtxtDisplay.setText("");
+				}
+			}
+		});
+		jbtnPay.setFont(new Font("Tahoma", Font.BOLD, 24));
+		jbtnPay.setBounds(12, 12, 122, 75);
+		panel_4.add(jbtnPay);
+		
+		JButton jbtnPrint = new JButton("Print");
+		jbtnPrint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				MessageFormat header = new MessageFormat("Receipt");
+				MessageFormat footer = new MessageFormat(jtxtBarCode.getText() + " $");
+				
+				try {
+					table.print(JTable.PrintMode.NORMAL,header, footer);
+				
+				}catch(PrinterException ex) {
+					System.err.format("No Printer Found", ex.getMessage());
+				}
+				
+			}
+		});
+		jbtnPrint.setFont(new Font("Tahoma", Font.BOLD, 24));
+		jbtnPrint.setBounds(162, 12, 122, 75);
+		panel_4.add(jbtnPrint);
+		
+		JButton jbtnReset = new JButton("Reset");
+		jbtnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jtxtDisplay.setText(null);
+				jtxtChange.setText(null);
+				jtxtTax.setText(null);
+				jtxtSubTotal.setText(null);
+				jtxtTotal.setText(null);
+				jtxtBarCode.setText(null);
+				
+				DefaultTableModel recordTable = (DefaultTableModel) table.getModel();
+				recordTable.setRowCount(0);
+			}
+		});
+		jbtnReset.setFont(new Font("Tahoma", Font.BOLD, 24));
+		jbtnReset.setBounds(306, 12, 122, 75);
+		panel_4.add(jbtnReset);
+		
+		JButton jbtnRemove = new JButton("Remove Item");
+		jbtnRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				int removeItem = table.getSelectedRow();
+				
+				if(removeItem >= 0) {
+					model.removeRow(removeItem);
+				}
+				itemCost();
+				
+				if(jcboPayment.getSelectedItem().equals("Cash")) {
+					Change();
+				}else {
+					jtxtChange.setText("");
+					jtxtDisplay.setText("");
+				}
+			}
+		});
+		jbtnRemove.setFont(new Font("Tahoma", Font.BOLD, 24));
+		jbtnRemove.setBounds(12, 107, 208, 75);
+		panel_4.add(jbtnRemove);
+		
+		JButton jbtnExit = new JButton("Exit");
+		jbtnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame = new JFrame("Exit");
+				
+				if(JOptionPane.showConfirmDialog(frame, "Confirm if you want to exit", "Point of sale", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+					System.exit(0);
+				}
+			}
+		});
+		jbtnExit.setFont(new Font("Tahoma", Font.BOLD, 24));
+		jbtnExit.setBounds(232, 107, 196, 75);
+		panel_4.add(jbtnExit);
+	}
+}
